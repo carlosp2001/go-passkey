@@ -44,15 +44,15 @@ func main() {
 	l = log.Default()
 
 	proto := getEnv("PROTO", "http")
-	tepago := getEnv("HOST", "0.0.0.0")
+	tepago := getEnv("HOST", "localhost")
 	port := getEnv("PORT", "8080")
 	origin := fmt.Sprintf("%s://%s:%s", proto, tepago, port)
 
 	l.Printf("[INFO] make webauthn config")
 	wconfig := &webauthn.Config{
-		RPDisplayName: "naya",           // Display Name for your site
-		RPID:          tepago,           // Generally the FQDN for your site
-		RPOrigins:     []string{origin}, // The origin URLs allowed for WebAuthn
+		RPDisplayName: "naya",                   // Display Name for your site
+		RPID:          tepago,                   // Generally the FQDN for your site
+		RPOrigins:     []string{proto + tepago}, // The origin URLs allowed for WebAuthn
 	}
 
 	l.Printf("[INFO] create webauthn")
@@ -79,12 +79,15 @@ func main() {
 
 	// Start the server with HTTPS
 	l.Printf("[INFO] start server at %s", origin)
-	//if err := http.ListenAndServeTLS(port, "server.crt", "server.key", nil); err != nil {
-	//	fmt.Println(err)
-	//}
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
+
+	if err := http.ListenAndServe(tepago+":"+port, nil); err != nil {
 		fmt.Println(err)
 	}
+
+	// In case we need to use HTTPS
+	//if err := http.ListenAndServeTLS(tepago+":"+port, "server.crt", "server.key", nil); err != nil {
+	//	fmt.Println(err)
+	//}
 }
 
 func ServeJsonFile(writer http.ResponseWriter, request *http.Request) {
