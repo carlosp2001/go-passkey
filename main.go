@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -44,7 +44,7 @@ func main() {
 	l = log.Default()
 
 	proto := getEnv("PROTO", "http")
-	tepago := getEnv("HOST", "192.168.100.169")
+	tepago := getEnv("HOST", "192.168.254.47")
 	port := getEnv("PORT", ":8443")
 	origin := fmt.Sprintf("%s://%s%s", proto, tepago, port)
 
@@ -82,7 +82,7 @@ func main() {
 	//if err := http.ListenAndServeTLS(port, "server.crt", "server.key", nil); err != nil {
 	//	fmt.Println(err)
 	//}
-	if err := http.ListenAndServe("192.168.100.169"+port, nil); err != nil {
+	if err := http.ListenAndServe(tepago+port, nil); err != nil {
 		fmt.Println(err)
 	}
 }
@@ -96,7 +96,7 @@ func ServeJsonFile(writer http.ResponseWriter, request *http.Request) {
 	defer file.Close()
 
 	// Lee el contenido del archivo
-	content, err := ioutil.ReadAll(file)
+	content, err := io.ReadAll(file)
 	if err != nil {
 		http.Error(writer, "Error al leer el archivo", http.StatusInternalServerError)
 		return
