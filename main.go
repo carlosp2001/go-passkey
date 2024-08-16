@@ -43,8 +43,8 @@ type PasskeyStore interface {
 func main() {
 	l = log.Default()
 
-	proto := getEnv("PROTO", "http")
-	tepago := getEnv("HOST", "0.0.0.0")
+	proto := getEnv("PROTO", "https")
+	tepago := getEnv("HOST", "localhost")
 	port := getEnv("PORT", "8080")
 	origin := fmt.Sprintf("%s://%s:%s", proto, tepago, port)
 
@@ -82,7 +82,7 @@ func main() {
 	//if err := http.ListenAndServeTLS(port, "server.crt", "server.key", nil); err != nil {
 	//	fmt.Println(err)
 	//}
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
+	if err := http.ListenAndServeTLS(tepago+":"+port, "server.crt", "server.key", nil); err != nil {
 		fmt.Println(err)
 	}
 }
