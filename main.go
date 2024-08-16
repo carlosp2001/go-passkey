@@ -44,8 +44,8 @@ func main() {
 	l = log.Default()
 
 	proto := getEnv("PROTO", "http")
-	tepago := getEnv("HOST", "192.168.254.47")
-	port := getEnv("PORT", "8443")
+	tepago := getEnv("HOST", "0.0.0.0")
+	port := getEnv("PORT", "8080")
 	origin := fmt.Sprintf("%s://%s:%s", proto, tepago, port)
 
 	l.Printf("[INFO] make webauthn config")
@@ -82,7 +82,7 @@ func main() {
 	//if err := http.ListenAndServeTLS(port, "server.crt", "server.key", nil); err != nil {
 	//	fmt.Println(err)
 	//}
-	if err := http.ListenAndServe(tepago+":"+port, nil); err != nil {
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		fmt.Println(err)
 	}
 }
