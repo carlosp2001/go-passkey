@@ -50,9 +50,9 @@ func main() {
 
 	l.Printf("[INFO] make webauthn config")
 	wconfig := &webauthn.Config{
-		RPDisplayName: "naya",                   // Display Name for your site
-		RPID:          tepago,                   // Generally the FQDN for your site
-		RPOrigins:     []string{proto + tepago}, // The origin URLs allowed for WebAuthn
+		RPDisplayName: "naya",                           // Display Name for your site
+		RPID:          tepago,                           // Generally the FQDN for your site
+		RPOrigins:     []string{proto + "://" + tepago}, // The origin URLs allowed for WebAuthn
 	}
 
 	l.Printf("[INFO] create webauthn")
