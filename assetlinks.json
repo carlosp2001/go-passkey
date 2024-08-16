@@ -6,7 +6,7 @@
     ],
     "target": {
       "namespace": "web",
-      "site": "http://192.168.100.169:8443"
+      "site": "https://go-passkey-latest.onrender.com"
     }
   },
   {
