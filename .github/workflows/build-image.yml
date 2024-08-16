@@ -1,0 +1,22 @@
+name: Build Image Github Container Registry
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish-image-github:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.ACCESS_TOKEN }}
+
+
+      - name: Build and upload image
+        run: |
+          docker build . -t ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/${{ github.repository }}:latest
