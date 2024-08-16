@@ -24,6 +24,8 @@ RUN apk add --no-cache libc6-compat
 # Copy the built application from the builder stage
 COPY --from=builder /app/app /app
 COPY --from=builder /usr/src/app/assetlinks.json /assetlinks.json
+COPY --from=builder /usr/src/app/server.crt /server.crt
+COPY --from=builder /usr/src/app/server.key /server.key
 COPY --from=builder /usr/src/app/web /web
 EXPOSE 8080
 
